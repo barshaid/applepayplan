@@ -1,13 +1,14 @@
 /* Reset and base styles */
 :root {
-  --primary-color: #2563eb;
-  --primary-dark: #1d4ed8;
+  --primary-color: #0033A0;
+  --primary-dark: #002080;
+  --primary-light: #1A4FB0;
   --secondary-color: #64748b;
-  --accent-color: #f59e0b;
+  --accent-color: #FF6B35;
   --success-color: #10b981;
-  --warning-color: #f59e0b;
+  --warning-color: #FF6B35;
   --error-color: #ef4444;
-  --info-color: #3b82f6;
+  --info-color: #0033A0;
   
   --bg-primary: #ffffff;
   --bg-secondary: #f8fafc;
@@ -36,17 +37,22 @@
   
   --sidebar-width: 280px;
   --header-height: 80px;
+  
+  /* Nuvei-specific gradients */
+  --nuvei-gradient: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  --nuvei-accent-gradient: linear-gradient(135deg, var(--accent-color), #FF8A5B);
 }
 
 [data-theme="dark"] {
-    --primary-color: #3b82f6;
-    --primary-dark: #2563eb;
+    --primary-color: #1A4FB0;
+    --primary-dark: #0033A0;
+    --primary-light: #2D5FBD;
     --secondary-color: #94a3b8;
-    --accent-color: #f59e0b;
+    --accent-color: #FF8A5B;
     --success-color: #10b981;
-    --warning-color: #f59e0b;
+    --warning-color: #FF8A5B;
     --error-color: #ef4444;
-    --info-color: #60a5fa;
+    --info-color: #1A4FB0;
 
     --bg-primary: #1e293b;
     --bg-secondary: #0f172a;
@@ -65,6 +71,10 @@
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+    
+    /* Nuvei-specific gradients for dark mode */
+    --nuvei-gradient: linear-gradient(135deg, var(--primary-light), var(--primary-color));
+    --nuvei-accent-gradient: linear-gradient(135deg, var(--accent-color), #FF6B35);
 }
 
 
@@ -110,7 +120,7 @@ body {
 .sidebar-header {
   padding: 2rem 1.5rem 1.5rem;
   border-bottom: 1px solid var(--border-light);
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  background: var(--nuvei-gradient);
   color: white;
   position: relative;
 }
@@ -119,13 +129,15 @@ body {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   color: white;
 }
 
 .sidebar-header .theme-toggle-button:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: white;
   transform: scale(1.05);
 }
 
@@ -213,7 +225,7 @@ body {
 
 /* Document Header */
 .document-header {
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+  background: var(--nuvei-gradient);
   color: white;
   padding: 3rem 2rem;
   margin-bottom: 2rem;
@@ -221,12 +233,15 @@ body {
 
 .header-badge {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--nuvei-accent-gradient);
   padding: 0.5rem 1rem;
   border-radius: var(--border-radius);
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 1rem;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .document-header h1 {
@@ -284,7 +299,19 @@ body {
   color: var(--text-primary);
   margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
-  border-bottom: 2px solid var(--primary-color);
+  border-bottom: 3px solid;
+  border-image: var(--nuvei-gradient) 1;
+  position: relative;
+}
+
+.content-section h2::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--nuvei-gradient);
 }
 
 .content-section h3 {
@@ -350,15 +377,15 @@ body {
 }
 
 .callout-info {
-  background-color: #eff6ff;
-  border-left-color: var(--info-color);
-  color: #1e40af;
+  background-color: #f0f7ff;
+  border-left-color: var(--primary-color);
+  color: var(--primary-dark);
 }
 
 .callout-warning {
-  background-color: #fffbeb;
-  border-left-color: var(--warning-color);
-  color: #92400e;
+  background-color: #fff8f0;
+  border-left-color: var(--accent-color);
+  color: #cc5500;
 }
 
 .callout-security {
@@ -390,14 +417,15 @@ body {
   flex-shrink: 0;
   width: 2.5rem;
   height: 2.5rem;
-  background: var(--primary-color);
+  background: var(--nuvei-gradient);
   color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1.125rem;
+  box-shadow: var(--shadow-md);
 }
 
 .step-content h3 {
@@ -515,16 +543,41 @@ body {
 }
 
 .implementation-card {
-  background: var(--bg-tertiary);
-  padding: 1.5rem;
+  background: var(--bg-primary);
+  padding: 2rem;
   border-radius: var(--border-radius-lg);
   border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.implementation-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--nuvei-accent-gradient);
+}
+
+.implementation-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--primary-color);
 }
 
 .implementation-card h3 {
   margin: 0 0 1rem;
   color: var(--primary-color);
-  font-size: 1.125rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.implementation-card p {
+  color: var(--text-secondary);
+  line-height: 1.6;
 }
 
 .implementation-card ul {
@@ -638,7 +691,7 @@ body {
   top: 0;
   bottom: 0;
   width: 2px;
-  background: var(--primary-color);
+  background: var(--nuvei-gradient);
 }
 
 .timeline-item {
@@ -653,9 +706,10 @@ body {
   top: 0.5rem;
   width: 1.5rem;
   height: 1.5rem;
-  background: var(--primary-color);
+  background: var(--nuvei-gradient);
   border-radius: 50%;
   border: 3px solid var(--bg-primary);
+  box-shadow: var(--shadow-sm);
 }
 
 .timeline-content {
@@ -672,13 +726,15 @@ body {
 
 .timeline-duration {
   display: inline-block;
-  background: var(--accent-color);
+  background: var(--nuvei-accent-gradient);
   color: white;
   padding: 0.25rem 0.75rem;
   border-radius: 1rem;
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .timeline-content p {
@@ -841,7 +897,7 @@ body {
   right: 1.5rem;
   z-index: 1002;
   background: var(--bg-primary);
-  border: 1px solid var(--border-color);
+  border: 2px solid var(--primary-color);
   border-radius: 50%;
   width: 48px;
   height: 48px;
@@ -851,7 +907,7 @@ body {
   cursor: pointer;
   box-shadow: var(--shadow-lg);
   transition: all 0.3s ease;
-  color: var(--text-primary);
+  color: var(--primary-color);
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -859,7 +915,8 @@ body {
 }
 
 .theme-toggle-button:hover {
-  background: var(--bg-tertiary);
+  background: var(--primary-color);
+  color: white;
   transform: scale(1.05);
   box-shadow: var(--shadow-xl);
 }
