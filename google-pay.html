@@ -3,7 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuvei Google Pay WebSDK - Technical Launch Plan</title>
+    <title>Nuve                        <tr>
+                            <td><code>externalTokenProvider</code></td>
+                            <td><code>paymentOption.card.externalToken</code></td>
+                            <td>Yes</td>
+                            <td>Must be literal <code>GooglePay</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>token</code></td>
+                            <td><code>paymentOption.card.externalToken</code></td>
+                            <td>Yes</td>
+                            <td>Encrypted Google Pay token from Google Pay JS</td>
+                        </tr>
+                        <tr>
+                            <td><code>googlePay3Dflow</code></td>ebSDK - Technical Launch Plan</title>
     <meta name="description" content="Technical implementation guide for Nuvei Google Pay WebSDK integration">
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -246,7 +259,7 @@ document.getElementById('google-pay-button-container').appendChild(button);</cod
         card: {
           externalToken: {
             externalTokenProvider: 'GooglePay',
-            mobileToken: gpayToken
+            token: gpayToken
           }
         }
       },
