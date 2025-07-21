@@ -72,6 +72,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 html {
@@ -111,6 +112,21 @@ body {
   border-bottom: 1px solid var(--border-light);
   background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
   color: white;
+  position: relative;
+}
+
+.sidebar-header .theme-toggle-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.sidebar-header .theme-toggle-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
 }
 
 .sidebar-header h2 {
@@ -818,11 +834,76 @@ body {
   }
 }
 
+/* Theme Toggle Button */
+.theme-toggle-button {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 1002;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  transition: all 0.3s ease;
+  color: var(--text-primary);
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.theme-toggle-button:hover {
+  background: var(--bg-tertiary);
+  transform: scale(1.05);
+  box-shadow: var(--shadow-xl);
+}
+
+.theme-toggle-button:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle-button svg {
+  width: 20px;
+  height: 20px;
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.theme-toggle-button .hidden {
+  display: none;
+}
+
 /* Focus styles for accessibility */
 a:focus,
 button:focus {
   outline: 2px solid var(--primary-color);
   outline-offset: 2px;
+}
+
+.theme-toggle-button:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Mobile responsive theme toggle */
+@media (max-width: 768px) {
+  .theme-toggle-button {
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .theme-toggle-button svg {
+    width: 18px;
+    height: 18px;
+  }
 }
 
 /* High contrast mode support */

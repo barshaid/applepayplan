@@ -5,6 +5,7 @@ class DocumentationSite {
         this.sidebarToggle = document.getElementById('sidebar-toggle');
         this.mainContent = document.querySelector('.main-content');
         this.navList = document.getElementById('nav-list');
+        this.themeToggle = document.getElementById('theme-toggle');
         
         this.init();
     }
@@ -15,6 +16,7 @@ class DocumentationSite {
         this.setupScrollSpy();
         this.setupSmoothScrolling();
         this.setupResponsiveHandling();
+        this.setupThemeToggle();
     }
 
     generateNavigation() {
@@ -597,6 +599,57 @@ class ReadingProgress {
         document.body.appendChild(progressBar);
     }
 
+    setupThemeToggle() {
+        // Initialize theme from localStorage, system preference, or default to light
+        const savedTheme = localStorage.getItem('theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+        
+        this.setTheme(initialTheme);
+
+        // Theme toggle button event listener
+        if (this.themeToggle) {
+            this.themeToggle.addEventListener('click', () => {
+                this.toggleTheme();
+            });
+        }
+
+        // Listen for system theme changes only if no user preference is saved
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        mediaQuery.addEventListener('change', (e) => {
+            if (!localStorage.getItem('theme')) {
+                this.setTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+    }
+
+    toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        this.setTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+    }
+
+    setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        
+        // Update theme toggle icons
+        if (this.themeToggle) {
+            const lightIcon = this.themeToggle.querySelector('#theme-toggle-light-icon');
+            const darkIcon = this.themeToggle.querySelector('#theme-toggle-dark-icon');
+            
+            if (lightIcon && darkIcon) {
+                if (theme === 'dark') {
+                    lightIcon.classList.remove('hidden');
+                    darkIcon.classList.add('hidden');
+                } else {
+                    lightIcon.classList.add('hidden');
+                    darkIcon.classList.remove('hidden');
+                }
+            }
+        }
+    }
+
     setupScrollTracking() {
         const progressFill = document.querySelector('.reading-progress-fill');
         
@@ -612,14 +665,96 @@ class ReadingProgress {
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new DocumentationSite();
-    new TableEnhancements();
-    new CodeBlockEnhancements();
-    new DocumentSearch();
-    new ReadingProgress();
+    try {
+        new DocumentationSite();
+    } catch (e) {
+        console.error('Error initializing DocumentationSite:', e);
+    }
+    
+    try {
+        if (typeof TableEnhancements !== 'undefined') {
+            new TableEnhancements();
+        }
+    } catch (e) {
+        console.error('Error initializing TableEnhancements:', e);
+    }
+    
+    try {
+        if (typeof CodeBlockEnhancements !== 'undefined') {
+            new CodeBlockEnhancements();
+        }
+    } catch (e) {
+        console.error('Error initializing CodeBlockEnhancements:', e);
+    }
+    
+    try {
+        if (typeof DocumentSearch !== 'undefined') {
+            new DocumentSearch();
+        }
+    } catch (e) {
+        console.error('Error initializing DocumentSearch:', e);
+    }
+    
+    try {
+        if (typeof ReadingProgress !== 'undefined') {
+            new ReadingProgress();
+        }
+    } catch (e) {
+        console.error('Error initializing ReadingProgress:', e);
+    }
+    
+    // Fallback theme toggle (in case the class-based approach fails)
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    if (themeToggleBtn && !themeToggleBtn.hasAttribute('data-listener-added')) {
+        console.log('Adding fallback theme toggle listener');
+        themeToggleBtn.addEventListener('click', function() {
+            console.log('Fallback theme toggle clicked!');
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Update icons
+            const lightIcon = document.getElementById('theme-toggle-light-icon');
+            const darkIcon = document.getElementById('theme-toggle-dark-icon');
+            
+            if (lightIcon && darkIcon) {
+                if (newTheme === 'dark') {
+                    lightIcon.classList.remove('hidden');
+                    darkIcon.classList.add('hidden');
+                } else {
+                    lightIcon.classList.add('hidden');
+                    darkIcon.classList.remove('hidden');
+                }
+            }
+        });
+        themeToggleBtn.setAttribute('data-listener-added', 'true');
+    }
+    
+    // Initialize theme on page load
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
+    
+    document.documentElement.setAttribute('data-theme', initialTheme);
+    
+    // Update icons based on initial theme
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    
+    if (lightIcon && darkIcon) {
+        if (initialTheme === 'dark') {
+            lightIcon.classList.remove('hidden');
+            darkIcon.classList.add('hidden');
+        } else {
+            lightIcon.classList.add('hidden');
+            darkIcon.classList.remove('hidden');
+        }
+    }
     
     // Add any additional initialization here
-    console.log('Nuvei Apple Pay Documentation loaded successfully');
+    console.log('Documentation loaded successfully');
 });
 
 // Export classes for potential use in other scripts
